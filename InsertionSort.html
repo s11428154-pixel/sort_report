@@ -33,10 +33,10 @@
         background-color: #f8f9fa;
         padding: 20px;
         border-radius: 8px;
-        border-left: 4px solid #e67e22; /* 橘色代表整理手牌的順暢感 */
+        border-left: 4px solid #27ae60; /* 綠色代表插入排序的穩定感 */
     }
-    .is-card.green { border-left-color: #2ecc71; }
-    .is-card.purple { border-left-color: #9b59b6; }
+    .is-card.orange { border-left-color: #f39c12; }
+    .is-card.teal { border-left-color: #16a085; }
     
     .is-card h3 {
         margin-top: 0;
@@ -46,7 +46,7 @@
         gap: 8px;
     }
     .is-badge {
-        background-color: #e67e22;
+        background-color: #27ae60;
         color: white;
         padding: 2px 8px;
         border-radius: 4px;
@@ -57,61 +57,33 @@
 
 <section class="insertion-sort-intro">
     <h2>🃏 插入排序法 (Insertion Sort) 核心概念</h2>
-    <p>插入排序法是最直觀的排序方式之一。它的運作原理就像是我們在<strong>「打撲克牌時整理手牌」</strong>一樣：我們總是把剛抽到的一張新牌，
-    <style>
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            text-align: center;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        h2 { margin-top: 30px; }
-        .controls { margin: 20px; }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 0 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #3498db;
-            color: white;
-            transition: background-color 0.3s;
-        }
-        button:hover { background-color: #2980b9; }
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
-        #status {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-            height: 30px;
-        }
-        /* 陣列容器與長條圖樣式 */
-        #array-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            height: 350px;
-            margin: 20px auto;
-            gap: 8px;
-        }
-        .bar {
-            width: 40px;
-            background-color: #3498db; 
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 5px;
-            font-weight: bold;
-            border-radius: 4px 4px 0 0;
-            transition: height 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-        }
-    </style>
+    <p>插入排序法是一種簡單且直觀的排序演算法，它的運作原理就像我們在<strong>整理手中的撲克牌</strong>：將尚未排序的牌，逐一與手中已排好順序的牌進行比對，並插入到正確的位置中。</p>
+    
+    <div class="is-grid">
+        <div class="is-card">
+            <h3>🧩 三步核心流程</h3>
+            <ol style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>取牌 (Pick)：</strong> 從「未排序區域」取出第一個數字。</li>
+                <li><strong>比對 (Compare)：</strong> 將此數字與左側「已排序區域」由後往前逐一比對大小。</li>
+                <li><strong>插入 (Insert)：</strong> 將較大的數字往後移騰出空間，直到找到合適位置將其「插入」。</li>
+            </ol>
+        </div>
+
+        <div class="is-card orange">
+            <h3>⏱️ 效能與複雜度</h3>
+            <ul style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>平均與最壞：</strong> <span class="is-badge" style="background-color:#f39c12">O(n²)</span>，處理大量數據時較慢。</li>
+                <li><strong>最好情況：</strong> 當陣列「幾乎已排序」時，複雜度僅為 <strong>O(n)</strong>，速度極快。</li>
+                <li><strong>特性：</strong> 佔用空間極小 O(1)，且為<strong>穩定排序</strong>（數值相同者不會改變原本的相對位置）。</li>
+            </ul>
+        </div>
+
+        <div class="is-card teal">
+            <h3>💡 為什麼它依然重要？</h3>
+            <p style="margin-bottom: 0;">雖然它在大數據下不如快速排序，但因為演算法極簡、<strong>常數時間極小</strong>，許多現代進階演算法（如 Python 的 Timsort 或 C++ 的內建排序）在資料量切分到夠小時，底層都會自動切換成插入排序來提升最終效能！</p>
+        </div>
+    </div>
+</section>
 </head>
 <body>
 
