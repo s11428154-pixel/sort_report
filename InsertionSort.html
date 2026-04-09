@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插入排序法動畫</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 { margin-top: 30px; }
+        .controls { margin: 20px; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #2980b9; }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #status {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            height: 30px;
+        }
+        /* 陣列容器與長條圖樣式 */
+        #array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 350px;
+            margin: 20px auto;
+            gap: 8px;
+        }
+        .bar {
+            width: 40px;
+            background-color: #3498db; 
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 5px;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>插入排序法 (Insertion Sort)</h2>
+    <div class="controls">
+        <button onclick="generateArray()" id="genBtn">產生新陣列</button>
+        <button onclick="insertionSort()" id="sortBtn">開始排序</button>
+    </div>
+    <div id="status">點擊「開始排序」觀察過程</div>
+    <div id="array-container"></div>
+
+    <script>
+        let array = [];
+        const container = document.getElementById("array-container");
+        const statusText = document.getElementById("status");
+        const delay = 700; // 動畫速度 (毫秒)
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // 初始化產生陣列
+        function generateArray() {
+            array = [];
+            container.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                let val = Math.floor(Math.random() * 90) + 10;
+                array.push(val);
+                
+                let bar = document.createElement("div");
+                bar.classList.add("bar");
+                bar.style.height = `${val * 3}px`;
+                bar.innerText = val;
+                container.appendChild(bar);
+            }
+            statusText.innerText = "新陣列已產生，準備就緒！";
+            document.getElementById("sortBtn").disabled = false;
+        }
+
+        // 插入排序主要邏輯與動畫
+        async function insertionSort() {
+            document.getElementById("sortBtn").disabled = true;
+            document.getElementById("genBtn").disabled = true;
+            
+            let bars = document.getElementsByClassName("bar");
+            let n = array.length;
+
+            // 第一個元素(索引0)預設為已排序，標記為綠色
+            bars[0].style.backgroundColor = "#2ecc71";
+
+            for (let i = 1; i < n; i++) {
+                let key = array[i];
+                let j = i - 1;
+                
+                // 抽出目前的目標元素 (Key)，標記為紅色並稍微往上平移以示區別
+                bars[i].style.backgroundColor = "#e74c3c";
+                bars[i].style.transform = "translateY(-15px)";
+                statusText.innerText = `抽出數字 ${key} 準備插入前面的已排序區`;
+                await sleep(delay);
+
+                // 往回找，若前面的數字比 Key 大，就把前面的數字往右挪
+                while (j >= 0 && array[j] > key) {
+                    bars[j].style.backgroundColor = "#f1c40f"; // 正在比較的元素標記黃色
+                    statusText.innerText = `${array[j]} 比 ${key} 大，將 ${array[j]} 向右移一格`;
+                    await sleep(delay);
+
+                    // 數據位移
+                    array[j + 1] = array[j];
+                    
+                    // DOM 高度與文字位移
+                    bars[j + 1].style.height = bars[j].style.height;
+                    bars[j + 1].innerText = bars[j].innerText;
+                    
+                    // 移完後，右邊那個元素視為已排序區的一部分 (先標綠)
+                    bars[j + 1].style.backgroundColor = "#2ecc71";
+                    
+                    j = j - 1;
+                    
+                    if(j >= 0) {
+                       bars[j+1].style.backgroundColor = "#2ecc71"; 
+                    }
+                }
+
+                // 找到正確位置，插入 Key
+                statusText.innerText = `找到正確位置，將 ${key} 插入！`;
+                array[j + 1] = key;
+                
+                // 將一開始抽出的 Key 放進空出來的 DOM 中，取消向上平移
+                bars[j + 1].style.height = `${key * 3}px`;
+                bars[j + 1].innerText = key;
+                bars[j + 1].style.backgroundColor = "#2ecc71";
+                
+                // 將原本 i 的位置復原外觀 (如果它被其他元素覆蓋，前面的步驟已經改過它的高度了)
+                bars[i].style.transform = "translateY(0)";
+                bars[i].style.backgroundColor = "#2ecc71";
+                
+                await sleep(delay);
+            }
+            
+            statusText.innerText = "排序完成！";
+            document.getElementById("genBtn").disabled = false;
+        }
+
+        window.onload = generateArray;
+    </script>
+</body>
+</html>
