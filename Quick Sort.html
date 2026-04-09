@@ -5,6 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>快速排序法動畫</title>
     <style>
+    .sort-intro-container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        text-align: left;
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+    .sort-intro-container h2 {
+        text-align: center;
+        color: #34495e;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    .intro-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .intro-card {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+    }
+    .intro-card.green { border-left-color: #2ecc71; }
+    .intro-card.orange { border-left-color: #e67e22; }
+    
+    .intro-card h3 {
+        margin-top: 0;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .highlight-badge {
+        background-color: #3498db;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: normal;
+    }
+</style>
+
+<section class="sort-intro-container">
+    <h2>什麼是排序演算法？</h2>
+    <p><strong>排序（Sorting）</strong>是電腦科學中最基礎但也最重要的操作之一。它的目標是將一組原本雜亂無章的資料，依照特定的規則（例如：數字由小到大、字母由 A 到 Z）重新排列整齊，以便於後續的搜尋與處理。</p>
+    
+    <div class="intro-grid">
+        <div class="intro-card">
+            <h3>🔄 兩大基本動作</h3>
+            <p>所有的比較型排序法，底層都在重複做這兩件事：</p>
+            <ul>
+                <li><strong>比較 (Compare)：</strong> 判斷兩個元素誰大誰小。</li>
+                <li><strong>交換 (Swap)：</strong> 如果順序不對，就改變它們的位置。</li>
+            </ul>
+        </div>
+
+        <div class="intro-card green">
+            <h3>⏱️ 效能評估標準</h3>
+            <p>我們通常用「大 O 符號」來評估演算法的好壞：</p>
+            <ul>
+                <li><strong>時間複雜度：</strong> 隨著資料量增加，花費時間的成長幅度（越小越快）。</li>
+                <li><strong>空間複雜度：</strong> 執行過程中，需要消耗多少額外的記憶體空間。</li>
+            </ul>
+        </div>
+
+        <div class="intro-card orange">
+            <h3>⚖️ 什麼是「穩定性」？</h3>
+            <p>排序法的另一個重要特性是<span class="highlight-badge">穩定性 (Stability)</span>：</p>
+            <p>如果陣列中有兩個<strong>數值相同</strong>的元素，在排序完成後，它們的<strong>相對位置有沒有改變</strong>？如果有改變就是「不穩定」，沒有改變就是「穩定」。</p>
+        </div>
+    </div>
+</section>
+    <style>
         body {
             font-family: "Microsoft JhengHei", sans-serif;
             text-align: center;
