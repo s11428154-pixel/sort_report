@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇排序法動畫</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        .controls {
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #status {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            height: 30px;
+        }
+        /* 陣列容器與長條圖樣式 */
+        #array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 350px;
+            margin: 20px auto;
+            gap: 8px;
+        }
+        .bar {
+            width: 40px;
+            background-color: #3498db; /* 預設藍色 */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 5px;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>選擇排序法 (Selection Sort)</h2>
+    <div class="controls">
+        <button onclick="generateArray()" id="genBtn">產生新陣列</button>
+        <button onclick="selectionSort()" id="sortBtn">開始排序</button>
+    </div>
+    <div id="status">點擊「開始排序」觀察過程</div>
+    <div id="array-container"></div>
+
+    <script>
+        let array = [];
+        const container = document.getElementById("array-container");
+        const statusText = document.getElementById("status");
+        const delay = 600; // 動畫速度 (毫秒)
+
+        // 輔助函式：暫停一段時間以產生動畫效果
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // 初始化/產生隨機陣列
+        function generateArray() {
+            array = [];
+            container.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                let val = Math.floor(Math.random() * 90) + 10; // 產生 10-99 的數字
+                array.push(val);
+                
+                let bar = document.createElement("div");
+                bar.classList.add("bar");
+                bar.style.height = `${val * 3}px`; // 高度依比例放大
+                bar.innerText = val;
+                container.appendChild(bar);
+            }
+            statusText.innerText = "新陣列已產生，準備就緒！";
+            document.getElementById("sortBtn").disabled = false;
+        }
+
+        // 選擇排序主要邏輯與動畫
+        async function selectionSort() {
+            // 禁用按鈕避免重複點擊
+            document.getElementById("sortBtn").disabled = true;
+            document.getElementById("genBtn").disabled = true;
+            
+            let bars = document.getElementsByClassName("bar");
+            let n = array.length;
+
+            for (let i = 0; i < n; i++) {
+                let min_idx = i;
+                
+                // 將當前起始點標記為紅色 (預設最小值)
+                bars[min_idx].style.backgroundColor = "#e74c3c"; 
+                statusText.innerText = `從未排序區尋找最小值，目前預設最小值為 ${array[min_idx]}`;
+                await sleep(delay);
+
+                for (let j = i + 1; j < n; j++) {
+                    // 正在掃描比對的元素標記為黃色
+                    bars[j].style.backgroundColor = "#f1c40f"; 
+                    await sleep(delay / 2);
+
+                    if (array[j] < array[min_idx]) {
+                        // 恢復前一個最小值的顏色 (如果是起始點保留紫色標記方便辨識)
+                        if (min_idx === i) {
+                            bars[min_idx].style.backgroundColor = "#9b59b6"; 
+                        } else {
+                            bars[min_idx].style.backgroundColor = "#3498db"; 
+                        }
+                        
+                        min_idx = j;
+                        // 找到新的最小值，標記為紅色
+                        bars[min_idx].style.backgroundColor = "#e74c3c"; 
+                        statusText.innerText = `找到更小的值：${array[min_idx]}`;
+                        await sleep(delay);
+                    } else {
+                        // 若沒有比較小，恢復原本的藍色
+                        bars[j].style.backgroundColor = "#3498db"; 
+                    }
+                }
+
+                // 交換動畫 (更新 DOM 的高度與文字)
+                if (min_idx !== i) {
+                    statusText.innerText = `將最小值 ${array[min_idx]} 與 ${array[i]} 交換位置`;
+                    await sleep(delay);
+                    
+                    let temp = array[min_idx];
+                    array[min_idx] = array[i];
+                    array[i] = temp;
+
+                    // 更新畫面上兩個長條的高度和數字
+                    bars[min_idx].style.height = `${array[min_idx] * 3}px`;
+                    bars[min_idx].innerText = array[min_idx];
+                    bars[min_idx].style.backgroundColor = "#3498db"; // 交換後恢復原色
+
+                    bars[i].style.height = `${array[i] * 3}px`;
+                    bars[i].innerText = array[i];
+                } else {
+                    statusText.innerText = `最小值 ${array[i]} 已經在正確的位置，不需交換`;
+                    await sleep(delay);
+                }
+                
+                // 該回合結束，將已排序的元素標記為綠色
+                bars[i].style.backgroundColor = "#2ecc71"; 
+            }
+            
+            statusText.innerText = "排序完成！";
+            document.getElementById("genBtn").disabled = false;
+        }
+
+        // 網頁載入時自動產生一次陣列
+        window.onload = generateArray;
+    </script>
+</body>
+</html>
