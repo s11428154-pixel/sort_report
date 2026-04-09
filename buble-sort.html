@@ -5,6 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>泡沫排序動畫</title>
     <style>
+    .bubble-sort-intro {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        text-align: left;
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+    .bubble-sort-intro h2 {
+        text-align: center;
+        color: #34495e;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    .bs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .bs-card {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #00cec9; /* 水藍色代表泡泡與水 */
+    }
+    .bs-card.pink { border-left-color: #ff7675; }
+    .bs-card.blue { border-left-color: #0984e3; }
+    
+    .bs-card h3 {
+        margin-top: 0;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .bs-badge {
+        background-color: #ff7675;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: normal;
+    }
+</style>
+
+<section class="bubble-sort-intro">
+    <h2>🫧 氣泡排序法 (Bubble Sort) 核心概念</h2>
+    <p>氣泡排序法是最基礎、最廣為人知的排序演算法。它的運作過程就像<strong>水裡的氣泡慢慢往上飄</strong>：透過不斷地將相鄰的兩個數字進行比較與交換，每一輪都會讓當前最大的數字「浮」到陣列的最右端。</p>
+    
+    <div class="bs-grid">
+        <div class="bs-card">
+            <h3>🎯 三步核心流程</h3>
+            <ol style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>相鄰比對 (Compare)：</strong> 從陣列開頭起，兩兩比較相鄰的兩個數字。</li>
+                <li><strong>大小交換 (Swap)：</strong> 如果左邊的數字大於右邊，就將它們互換位置。</li>
+                <li><strong>浮出水面 (Bubble Up)：</strong> 走到陣列尾端時，最大的數字就已就位。扣除已排好的尾部，重複步驟直到沒有數字需要交換。</li>
+            </ol>
+        </div>
+
+        <div class="bs-card pink">
+            <h3>⏱️ 效能與複雜度</h3>
+            <ul style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>平均與最壞：</strong> <span class="bs-badge">O(n²)</span>，因為需要進行極大量的重複比較與交換。</li>
+                <li><strong>最好情況：</strong> 若加入「提早結束」的優化機制（檢查該回合是否有發生交換），在陣列已排好時複雜度可降至 <strong>O(n)</strong>。</li>
+                <li><strong>特性：</strong> 空間佔用 O(1)，且為<strong>穩定排序</strong>。</li>
+            </ul>
+        </div>
+
+        <div class="bs-card blue">
+            <h3>💡 為什麼我們還要學它？</h3>
+            <p style="margin-bottom: 0;">老實說，因為效能較差，實務專案中幾乎不會使用氣泡排序。但它<strong>邏輯極度直觀、程式碼撰寫最簡單</strong>，是所有程式初學者理解「雙重迴圈」與「條件判斷」完美結合的最佳敲門磚！</p>
+        </div>
+    </div>
+</section>
+    <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
