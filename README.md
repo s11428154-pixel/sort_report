@@ -1,4 +1,4 @@
-# 排序演算法分析報告
+# 排序報告
 ## 學號: 11428154  
 ## 姓名: 陳奕綸  
 ## 模擬頁面: [https://s11428154-pixel.github.io/sort_report/index.html](https://s11428154-pixel.github.io/sort_report/index.html)
