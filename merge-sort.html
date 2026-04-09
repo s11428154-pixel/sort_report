@@ -5,6 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>合併排序法動畫</title>
     <style>
+    .merge-sort-intro {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        text-align: left;
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+    .merge-sort-intro h2 {
+        text-align: center;
+        color: #34495e;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    .ms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .ms-card {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #1abc9c; /* 藍綠色代表合併排序的穩定感 */
+    }
+    .ms-card.blue { border-left-color: #3498db; }
+    .ms-card.orange { border-left-color: #f39c12; }
+    
+    .ms-card h3 {
+        margin-top: 0;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .ms-badge {
+        background-color: #1abc9c;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: normal;
+    }
+</style>
+
+<section class="merge-sort-intro">
+    <h2>🧩 合併排序法 (Merge Sort) 核心概念</h2>
+    <p>合併排序法同樣是「分而治之」(Divide and Conquer) 策略的經典代表。它的運作哲學是：與其一次處理一大堆雜亂的數字，不如把它們一直切半，直到每個區塊都只有一個數字（一個數字自然算排好序了），然後再兩兩合併起來。</p>
+    
+    <div class="ms-grid">
+        <div class="ms-card">
+            <h3>🎯 兩步核心流程</h3>
+            <ol style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>分割 (Divide)：</strong> 將陣列從中間對半切，不斷遞迴切分，直到每個子陣列只剩 1 個元素。</li>
+                <li><strong>合併 (Merge)：</strong> 將相鄰的兩個子陣列，由左至右依序比較大小，挑選較小的元素放入新的陣列中，直到合併成一個完整的已排序陣列。</li>
+            </ol>
+        </div>
+
+        <div class="ms-card blue">
+            <h3>⏱️ 效能與複雜度</h3>
+            <ul style="padding-left: 20px; margin-bottom: 0;">
+                <li><strong>時間複雜度：</strong> 永遠都是 <span class="ms-badge" style="background-color:#3498db">O(n log n)</span>。不論資料多亂或多整齊，效能極度穩定！</li>
+                <li><strong>空間複雜度：</strong> <span class="ms-badge" style="background-color:#e74c3c">O(n)</span>。這是它的致命傷，合併時需要額外借用一個與原陣列一樣大的空間來存放資料。</li>
+                <li><strong>穩定性：</strong> 穩定。數值相同的元素在排序後不會改變原本的相對位置。</li>
+            </ul>
+        </div>
+
+        <div class="ms-card orange">
+            <h3>💡 為什麼要用合併排序？</h3>
+            <p style="margin-bottom: 0;">當你極度需要「<strong>穩定的執行時間</strong>」且「<strong>不怕消耗額外記憶體</strong>」時，它就是首選。此外，因為它是循序存取資料，非常適合用來排序<strong>「連結串列 (Linked List)」</strong>或是資料大到無法全部塞進記憶體的<strong>「外部排序 (External Sorting)」</strong>。</p>
+        </div>
+    </div>
+</section>
+    <style>
         body {
             font-family: "Microsoft JhengHei", sans-serif;
             text-align: center;
