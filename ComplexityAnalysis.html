@@ -1,0 +1,128 @@
+<style>
+    .complexity-summary {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        text-align: left;
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+    .complexity-summary h2 {
+        text-align: center;
+        color: #34495e;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    .table-container {
+        overflow-x: auto; /* 確保在手機螢幕上可以左右滑動 */
+        margin-top: 20px;
+    }
+    .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+        font-size: 0.95em;
+    }
+    .comp-table th, .comp-table td {
+        padding: 14px 12px;
+        text-align: center;
+        border-bottom: 1px solid #ecf0f1;
+        vertical-align: middle;
+    }
+    .comp-table th {
+        background-color: #f8f9fa;
+        color: #34495e;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .comp-table tr:hover {
+        background-color: #fcfcfc;
+    }
+    .comp-table td:first-child {
+        font-weight: bold;
+        text-align: left;
+        color: #2c3e50;
+    }
+    
+    /* 複雜度視覺化標籤 */
+    .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        color: white;
+        font-size: 0.9em;
+        font-family: 'Courier New', Courier, monospace; /* 讓 Big-O 更有程式碼感 */
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+    .badge.green { background-color: #27ae60; }   /* 優 */
+    .badge.blue { background-color: #3498db; }    /* 良 */
+    .badge.red { background-color: #e74c3c; }     /* 差 */
+    .badge.gray { background-color: #95a5a6; }    /* 中性資訊 */
+</style>
+
+<section class="complexity-summary">
+    <h2>📊 經典排序演算法：複雜度總覽</h2>
+    <p>透過時間複雜度（執行時間隨資料量增長的趨勢）與空間複雜度（額外佔用的記憶體），我們可以針對不同的應用場景，挑選出最適合的排序武器。</p>
+    
+    <div class="table-container">
+        <table class="comp-table">
+            <thead>
+                <tr>
+                    <th>演算法 (Algorithm)</th>
+                    <th>最佳時間 (Best)</th>
+                    <th>平均時間 (Average)</th>
+                    <th>最差時間 (Worst)</th>
+                    <th>空間複雜度 (Space)</th>
+                    <th>穩定性 (Stable)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🫧 氣泡排序 (Bubble)</td>
+                    <td><span class="badge green">O(n)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge green">O(1)</span></td>
+                    <td><span class="badge gray">穩定</span></td>
+                </tr>
+                <tr>
+                    <td>🔍 選擇排序 (Selection)</td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge green">O(1)</span></td>
+                    <td><span class="badge gray">不穩定</span></td>
+                </tr>
+                <tr>
+                    <td>🃏 插入排序 (Insertion)</td>
+                    <td><span class="badge green">O(n)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge green">O(1)</span></td>
+                    <td><span class="badge gray">穩定</span></td>
+                </tr>
+                <tr>
+                    <td>⚡ 快速排序 (Quick)</td>
+                    <td><span class="badge blue">O(n log n)</span></td>
+                    <td><span class="badge blue">O(n log n)</span></td>
+                    <td><span class="badge red">O(n²)</span></td>
+                    <td><span class="badge blue">O(log n)</span></td>
+                    <td><span class="badge gray">不穩定</span></td>
+                </tr>
+                <tr>
+                    <td>🔗 合併排序 (Merge)</td>
+                    <td><span class="badge blue">O(n log n)</span></td>
+                    <td><span class="badge blue">O(n log n)</span></td>
+                    <td><span class="badge blue">O(n log n)</span></td>
+                    <td><span class="badge red">O(n)</span></td>
+                    <td><span class="badge gray">穩定</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
