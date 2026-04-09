@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合併排序法動畫</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 { margin-top: 30px; }
+        .controls { margin: 20px; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #2980b9; }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #status {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            height: 30px;
+        }
+        #array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 350px;
+            margin: 20px auto;
+            gap: 8px;
+        }
+        .bar {
+            width: 35px;
+            background-color: #3498db; 
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 5px;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>合併排序法 (Merge Sort)</h2>
+    <div class="controls">
+        <button onclick="generateArray()" id="genBtn">產生新陣列</button>
+        <button onclick="startSort()" id="sortBtn">開始排序</button>
+    </div>
+    <div id="status">點擊「開始排序」觀察過程</div>
+    <div id="array-container"></div>
+
+    <script>
+        let array = [];
+        const container = document.getElementById("array-container");
+        const statusText = document.getElementById("status");
+        const delay = 600;
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function generateArray() {
+            array = [];
+            container.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                let val = Math.floor(Math.random() * 90) + 10;
+                array.push(val);
+                
+                let bar = document.createElement("div");
+                bar.classList.add("bar");
+                bar.style.height = `${val * 3}px`;
+                bar.innerText = val;
+                container.appendChild(bar);
+            }
+            statusText.innerText = "新陣列已產生，準備就緒！";
+            document.getElementById("sortBtn").disabled = false;
+        }
+
+        async function startSort() {
+            document.getElementById("sortBtn").disabled = true;
+            document.getElementById("genBtn").disabled = true;
+            
+            await mergeSort(0, array.length - 1);
+            
+            // 排序完成，全體變綠色
+            let bars = document.getElementsByClassName("bar");
+            for(let i = 0; i < bars.length; i++) {
+                bars[i].style.backgroundColor = "#2ecc71";
+            }
+            statusText.innerText = "排序完成！";
+            document.getElementById("genBtn").disabled = false;
+        }
+
+        // 遞迴主體
+        async function mergeSort(left, right) {
+            if (left >= right) {
+                return;
+            }
+            let mid = left + Math.floor((right - left) / 2);
+            
+            statusText.innerText = `將區間 [${left} 到 ${right}] 從中間 ${mid} 切分成兩半`;
+            await sleep(delay);
+
+            await mergeSort(left, mid);
+            await mergeSort(mid + 1, right);
+            await merge(left, mid, right);
+        }
+
+        // 合併過程
+        async function merge(left, mid, right) {
+            statusText.innerText = `準備合併左右區間：[${left} 到 ${mid}] 與 [${mid + 1} 到 ${right}]`;
+            let bars = document.getElementsByClassName("bar");
+            
+            // 將準備合併的區間標記為紫色
+            for (let i = left; i <= right; i++) {
+                bars[i].style.backgroundColor = "#9b59b6";
+            }
+            await sleep(delay);
+
+            let n1 = mid - left + 1;
+            let n2 = right - mid;
+            
+            // 建立左半邊與右半邊的暫存陣列
+            let L = new Array(n1);
+            let R = new Array(n2);
+            for (let i = 0; i < n1; i++) L[i] = array[left + i];
+            for (let j = 0; j < n2; j++) R[j] = array[mid + 1 + j];
+
+            let i = 0, j = 0, k = left;
+
+            // 開始比較並覆寫回原陣列
+            while (i < n1 && j < n2) {
+                // 將正在比較的兩個元素標記為黃色與紅色
+                statusText.innerText = `比較左側的 ${L[i]} 與右側的 ${R[j]}`;
+                
+                if (L[i] <= R[j]) {
+                    statusText.innerText += ` -> ${L[i]} 較小，放入合併結果中`;
+                    array[k] = L[i];
+                    i++;
+                } else {
+                    statusText.innerText += ` -> ${R[j]} 較小，放入合併結果中`;
+                    array[k] = R[j];
+                    j++;
+                }
+                
+                // 更新畫面 DOM
+                bars[k].style.height = `${array[k] * 3}px`;
+                bars[k].innerText = array[k];
+                bars[k].style.backgroundColor = "#e67e22"; // 剛放進去的標橘色
+                
+                await sleep(delay);
+                bars[k].style.backgroundColor = "#3498db"; // 恢復原色
+                k++;
+            }
+
+            // 把左邊或右邊剩下的元素直接補上去
+            while (i < n1) {
+                statusText.innerText = `左側剩餘的 ${L[i]} 依序放入`;
+                array[k] = L[i];
+                bars[k].style.height = `${array[k] * 3}px`;
+                bars[k].innerText = array[k];
+                bars[k].style.backgroundColor = "#e67e22";
+                await sleep(delay / 2);
+                bars[k].style.backgroundColor = "#3498db";
+                i++;
+                k++;
+            }
+
+            while (j < n2) {
+                statusText.innerText = `右側剩餘的 ${R[j]} 依序放入`;
+                array[k] = R[j];
+                bars[k].style.height = `${array[k] * 3}px`;
+                bars[k].innerText = array[k];
+                bars[k].style.backgroundColor = "#e67e22";
+                await sleep(delay / 2);
+                bars[k].style.backgroundColor = "#3498db";
+                j++;
+                k++;
+            }
+            
+            statusText.innerText = `區間 [${left} 到 ${right}] 合併完成`;
+            await sleep(delay);
+        }
+
+        window.onload = generateArray;
+    </script>
+</body>
+</html>
